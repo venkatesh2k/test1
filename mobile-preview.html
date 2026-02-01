@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile S Simulator (360x870) | Destiny Builders</title>
+    <style>
+        :root {
+            --primary: #f39c12;
+            --dark: #0f172a;
+            --gray: #334155;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1e293b;
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: var(--dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .size-toggle {
+            display: flex;
+            background: var(--gray);
+            padding: 4px;
+            border-radius: 6px;
+            margin-right: 2rem;
+        }
+
+        .size-toggle button {
+            background: transparent;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        .size-toggle button.active {
+            background: var(--primary);
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background: var(--gray);
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: var(--primary);
+        }
+
+        button.active {
+            background: var(--primary);
+        }
+
+        .simulator-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .phone-frame {
+            width: 360px;
+            height: 870px;
+            border: 12px solid #000;
+            border-radius: 40px;
+            background: white;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .phone-frame.size-320 {
+            width: 320px;
+        }
+
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: #000;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            z-index: 10;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+
+        .info {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">DESTINY BUILDERS | MOBILE SIMULATOR</div>
+        <div class="controls">
+            <div class="size-toggle">
+                <button onclick="setSize(320, this)">320px</button>
+                <button onclick="setSize(360, this)" class="active">360px</button>
+            </div>
+            <button onclick="loadPage('index.html', this)" class="nav-btn active">Home</button>
+            <button onclick="loadPage('about.html', this)" class="nav-btn">About</button>
+            <button onclick="loadPage('services.html', this)" class="nav-btn">Services</button>
+            <button onclick="loadPage('projects.html', this)" class="nav-btn">Projects</button>
+            <button onclick="loadPage('why-choose-us.html', this)" class="nav-btn">Why Us</button>
+            <button onclick="loadPage('contact.html', this)" class="nav-btn">Contact</button>
+        </div>
+    </header>
+
+    <div class="simulator-container">
+        <div class="phone-frame" id="phone">
+            <iframe id="mobile-viewport" src="index.html"></iframe>
+        </div>
+    </div>
+
+    <div id="resolution-info" class="info">
+        Fixed Resolution: 360px x 870px
+    </div>
+
+    <script>
+        function loadPage(url, btn) {
+            document.getElementById('mobile-viewport').src = url;
+
+            // Update active nav button
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function setSize(width, btn) {
+            const phone = document.getElementById('phone');
+            const info = document.getElementById('resolution-info');
+
+            if (width === 320) {
+                phone.classList.add('size-320');
+            } else {
+                phone.classList.remove('size-320');
+            }
+
+            info.innerText = `Fixed Resolution: ${width}px x 870px`;
+
+            // Update active toggle button
+            const toggleButtons = document.querySelectorAll('.size-toggle button');
+            toggleButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>
